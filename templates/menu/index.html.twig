@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block title %}Menu{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+{% block body %}
+    <h1>Pizzas</h1>
+    {% if pizzas is not empty %}
+        {% for pizza in pizzas %}
+            {{ pizza.name }}: {{ pizza.price | number_format(2, ',', '.') }} € <br />
+            {% if pizza.ingredients is not empty %}
+                (
+                {% for ingredient in pizza.ingredients %}
+                    {{ ingredient.name }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+                )
+            {% endif %}
+            <br /><br />
+        {% endfor %}
+    {% else %}
+        Any pizza for the menu.
+   {% endif %}
+{% endblock %}

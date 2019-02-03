@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <h1>Add Ingredients to Pizza</h1>
+    {% if pizzas is not empty %}
+        <select id="pizza">
+            <option value="0">Select your pizza</option>
+            {% for pizza in pizzas %}
+                <option value="{{ pizza.id }}">{{ pizza.name }}</option>
+           {% endfor %}
+        </select>
+        <br /><br />
+        <div id="ingredients_response"></div>
+   {% else %}
+        You don't have any pizza to add ingredients.
+   {% endif %}
+    <script>
+        function addIngredient(pizzaId, ingredientId){
+            $.post(
+                '{{ path('ajax_pizza_add_ingredient_to_pizza') }}',
+                {
+                    pizzaId: pizzaId,
+                    ingredientId: ingredientId
+                }
+            ).done(function(response){
+                if (response === true) {
+                    showPizzaIngredients(pizzaId);
+                } else {
+                    alert ('An error has ocurred.');
+                }
+            }).fail(function() {
+                alert( "Posting failed." );
+            });
+        }
+
+        function showPizzaIngredients(pizzaId) {
+            $.post(
+                '{{ path('ajax_ingredients_show_ingredients_by_pizza') }}',
+                { pizzaId: pizzaId }
+            ).done(function(response){
+                $('#ingredients_response').html(response);
+            }).fail(function() {
+                alert( "Posting failed." );
+            });
+        }
+
+        $(function() {
+            $('#pizza').change(function() {
+                var pizzaId = $('#pizza').val();
+                if (pizzaId !== "0") {
+                    showPizzaIngredients(pizzaId);
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
+{% block javascripts %}
+    <script language="javascript" src="js/main.js"></script>
+{% endblock %}

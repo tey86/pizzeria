@@ -1,0 +1,22 @@
+{% if pizza.ingredients is defined %}
+    {% if ingredients|length != pizza.ingredients|length %}
+        {% for ingredient in ingredients %}
+            {{ ingredient.name }} -
+            {% if ingredient in pizza.ingredients %}
+                Added in pizza
+            {% else %}
+                <a href="javascript:addIngredient({{ pizza.id }},{{ ingredient.id }});">
+                    Add to pizza
+                </a>
+            {% endif %}
+            <br />
+        {% endfor %}
+    {% else %}
+        No ingredients to add.<br />
+        <br />
+        Pizza ingredients:<br />
+        {% for ingredient in pizza.ingredients %}
+            - {{ ingredient.name }}<br />
+        {% endfor %}
+    {% endif %}
+{% endif %}
