@@ -3,7 +3,10 @@
         {% for ingredient in ingredients %}
             {{ ingredient.name }} -
             {% if ingredient in pizza.ingredients %}
-                Added in pizza
+                Added in pizza -
+                <a href="javascript:removeIngredient({{ pizza.id }},{{ ingredient.id }});">
+                    Remove ingredient
+                </a>
             {% else %}
                 <a href="javascript:addIngredient({{ pizza.id }},{{ ingredient.id }});">
                     Add to pizza
@@ -16,7 +19,10 @@
         <br />
         Pizza ingredients:<br />
         {% for ingredient in pizza.ingredients %}
-            - {{ ingredient.name }}<br />
+            - {{ ingredient.name }} -
+            <a href="javascript:removeIngredient({{ pizza.id }},{{ ingredient.id }});">
+                Remove ingredient
+            </a><br />
         {% endfor %}
     {% endif %}
 {% endif %}

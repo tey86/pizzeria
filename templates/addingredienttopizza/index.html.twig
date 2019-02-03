@@ -36,6 +36,24 @@
             });
         }
 
+        function removeIngredient(pizzaId, ingredientId){
+            $.post(
+                '{{ path('ajax_pizza_remove_ingredient_to_pizza') }}',
+                {
+                    pizzaId: pizzaId,
+                    ingredientId: ingredientId
+                }
+            ).done(function(response){
+                if (response === true) {
+                    showPizzaIngredients(pizzaId);
+                } else {
+                    alert ('An error has ocurred.');
+                }
+            }).fail(function() {
+                alert( "Posting failed." );
+            });
+        }
+
         function showPizzaIngredients(pizzaId) {
             $.post(
                 '{{ path('ajax_ingredients_show_ingredients_by_pizza') }}',
@@ -57,7 +75,4 @@
         });
 
     </script>
-{% endblock %}
-{% block javascripts %}
-    <script language="javascript" src="js/main.js"></script>
 {% endblock %}

@@ -45,6 +45,20 @@ class PizzaService
         }
     }
 
+    public function removeIngredientToPizza(Ingredient $ingredient, Pizza $pizza) : bool
+    {
+        try {
+            $pizza->removeIngredient($ingredient);
+            $pizza->setPrice($this->recalculatePizzaPriceByPizza($pizza));
+
+            $this->entityManager->persist($pizza);
+            $this->entityManager->flush();
+            return true;
+        } catch (ORMException $exception) {
+            return false;
+        }
+    }
+
     public function recalculatePizzaPriceByPizza(Pizza $pizza) : float
     {
         $price = 0;

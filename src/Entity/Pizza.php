@@ -73,4 +73,12 @@ class Pizza
             $this->ingredients->add($ingredient);
         }
     }
+
+    public function removeIngredient(Ingredient $ingredient = null)
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            return;
+        }
+        $this->ingredients->removeElement($ingredient);
+    }
 }
